@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gestion des Utilisateurs</title>
+    <style>
+      /* Styles généraux */
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        text-align: center;
+        padding: 50px;
+      }
+
+      .container {
+        width: 50%;
+        margin: auto;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      h1,
+      h2 {
+        color: #333;
+      }
+
+      /* Formulaire */
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+      }
+
+      input {
+        width: 80%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+      }
+
+      button {
+        background: #7749f8;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+
+      button:hover {
+        background: #5636c7;
+      }
+
+      /* Liste des utilisateurs */
+      ul {
+        list-style: none;
+        padding: 0;
+        margin-top: 20px;
+      }
+
+      li {
+        background: white;
+        padding: 10px;
+        margin-top: 5px;
+        border-radius: 5px;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 80%;
+        margin: 5px auto;
+      }
+
+      li button {
+        background: red;
+        border: none;
+        padding: 5px 10px;
+        color: white;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 14px;
+      }
+
+      li button:hover {
+        background: darkred;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Gestion des Utilisateurs</h1>
+
+      <h2>Ajouter un utilisateur</h2>
+      <form id="userForm">
+        <input type="text" id="name" placeholder="Nom" required />
+        <input type="email" id="email" placeholder="Email" required />
+        <button type="submit">Ajouter</button>
+      </form>
+
+      <h2>Liste des utilisateurs</h2>
+      <ul id="userList"></ul>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const form = document.getElementById("userForm");
+        const userList = document.getElementById("userList");
+
+        // Ajouter un utilisateur
+        form.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const name = document.getElementById("name").value;
+          const email = document.getElementById("email").value;
+
+          const response = await fetch("http://localhost:3000/users", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, email }),
+          });
+
+          if (response.ok) {
+            fetchUsers(); // Rafraîchir la liste après ajout
+            form.reset();
+          }
+        });
+
+        // Récupérer et afficher la liste des utilisateurs
+        async function fetchUsers() {
+          const response = await fetch("http://localhost:3000/users");
+          const users = await response.json();
+          userList.innerHTML = "";
+
+          users.forEach((user) => {
+            const li = document.createElement("li");
+            li.innerHTML = `
+              ${user.name} - ${user.email} 
+              <button onclick="deleteUser(${user.id})">Supprimer</button>
+            `;
+            userList.appendChild(li);
+          });
+        }
+
+        // Supprimer un utilisateur
+        async function deleteUser(id) {
+          const response = await fetch(`http://localhost:3000/users/${id}`, {
+            method: "DELETE",
+          });
+
+          if (response.ok) {
+            fetchUsers(); // Rafraîchir la liste après suppression
+          }
+        }
+
+        fetchUsers(); // Charger la liste au démarrage
+      });
+    </script>
+  </body>
+</html>
