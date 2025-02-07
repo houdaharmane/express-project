@@ -3,7 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gestion des utilisateurs</title>
+    <title>Gestion des Utilisateurs</title>
+    <script defer src="script.js"></script>
   </head>
-  <body></body>
+  <body>
+    <h1>Gestion des Utilisateurs</h1>
+
+    <h2>Ajouter un utilisateur</h2>
+    <form id="userForm">
+      <input type="text" id="name" placeholder="Nom" required />
+      <input type="email" id="email" placeholder="Email" required />
+      <button type="submit">Ajouter</button>
+    </form>
+
+    <h2>Liste des utilisateurs</h2>
+    <ul id="userList"></ul>
+  </body>
 </html>
