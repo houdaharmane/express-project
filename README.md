@@ -34,7 +34,7 @@ Avant de démarrer le projet, assurez-vous d'avoir les outils suivants installé
 1. Clonez le dépôt Git sur votre machine locale :
 
    ```bash
-   git clone https://github.com/yourusername/express-project.git
+   git clone https://github.com/houdaharmane/express-project.git
 Accédez au répertoire du projet :
 
 bash
@@ -65,7 +65,7 @@ bash
 Copier
 Modifier
 npm start
-Cela démarrera le serveur sur http://localhost:5000.
+Cela démarrera le serveur sur http://localhost:3001.
 
 Démarrer l'application frontend (React) :
 Dans le répertoire frontend, lancez l'application React :
@@ -100,7 +100,7 @@ Pour déployer l'application, vous pouvez utiliser des plateformes comme Heroku,
 
 Résolution des Problèmes
 npm run build échoue à minifier
-Si vous rencontrez des problèmes pour minifier votre code pendant la construction, consultez la section de dépannage sur la documentation de Create React App.
+
 
 Problèmes de CORS
 Si vous travaillez avec un serveur backend Express et un frontend React sur des ports différents, vous devrez probablement configurer le CORS pour autoriser les requêtes entre les deux. Vous pouvez le faire en ajoutant ce middleware dans Express :
@@ -117,14 +117,6 @@ Stockage de fichiers : Ajouter la possibilité de télécharger et de stocker de
 
 Tests unitaires et d'intégration : Écriture de tests pour l'application React et l'API Express.
 
-Contributions
-Si vous souhaitez contribuer au projet, voici quelques étapes pour commencer :
-
-Forkez le dépôt.
-
-Créez une nouvelle branche pour vos fonctionnalités ou corrections.
-
-Soumettez une demande de fusion (pull request) pour proposer vos modifications.
 
 Technologies Utilisées
 Frontend : React, React Router, Axios
@@ -147,10 +139,3 @@ markdown
 Copier
 Modifier
 
-### Points importants à considérer :
-1. **Clé de versionnement** : Vous pouvez inclure l'historique des modifications pour suivre l'évolution de votre projet.
-2. **Installation et exécution** : Décrivez clairement comment installer et exécuter le projet localement.
-3. **Dépendances** : Mentionnez toutes les bibliothèques et dépendances utilisées dans le projet.
-4. **Contribuer au projet** : Si vous souhaitez permettre à d'autres de contribuer, ajoutez un guide sur la manière de le faire.
-
-Assurez-vous que les sections sont bien structurées pour une bonne lisibilité
