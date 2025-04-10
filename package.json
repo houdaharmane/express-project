@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node server.js",
     "postinstall": "npm rebuild sqlite3",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "nyc mocha"
   },
   "keywords": [],
   "author": "",
@@ -16,5 +16,11 @@
     "cors": "^2.8.5",
     "express": "^4.21.2",
     "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "chai": "^5.2.0",
+    "mocha": "^11.1.0",
+    "nyc": "^17.1.0",
+    "supertest": "^7.1.0"
   }
 }
