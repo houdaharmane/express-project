@@ -1,0 +1,58 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main # Déclenche le pipeline à chaque push sur la branche principale
+  pull_request:
+    branches:
+      - main # Déclenche le pipeline lors de la création de PR vers la branche principale
+
+jobs:
+  build:
+    runs-on: ubuntu-latest # Utilise l'image Ubuntu la plus récente
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2 # Récupère le code du dépôt
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2 # Installe Node.js
+        with:
+          node-version: "16" # Tu peux spécifier une version différente de Node.js si nécessaire
+
+      - name: Install Dependencies
+        run: |
+          npm install  # Installe les dépendances du projet
+
+      - name: Run Tests
+        run: |
+          npm test  # Lance les tests avec Mocha ou tout autre framework que tu utilises
+
+      - name: Build Docker Image
+        run: |
+          docker build -t username/express-project .  # Remplace "username" par ton nom d'utilisateur Docker Hub
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2 # Connexion à Docker Hub
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }} # Utilise les secrets pour éviter de mettre ton mot de passe dans le fichier
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Push Docker Image to Docker Hub
+        run: |
+          docker push username/express-project  # Remplace "username" par ton nom d'utilisateur Docker Hub
+
+      # Optionnel : Déploiement via SSH sur un serveur
+      - name: Deploy to VPS (Contabo or similar)
+        if: github.ref == 'refs/heads/main' # Le déploiement se fait uniquement sur la branche principale
+        uses: appleboy/ssh-action@v0.1.5 # Utilise l'action SSH d'Appleboy pour déployer sur un serveur distant
+        with:
+          host: ${{ secrets.VPS_HOST }} # L'adresse IP ou domaine de ton serveur
+          username: ${{ secrets.VPS_USERNAME }} # Le nom d'utilisateur pour te connecter en SSH
+          key: ${{ secrets.VPS_SSH_KEY }} # La clé privée SSH pour l'authentification
+          port: 22 # Le port SSH de ton serveur (par défaut, c'est 22)
+          script: |
+            cd /path/to/your/project  # Va dans le dossier de ton projet sur le serveur
+            docker pull username/express-project  # Tire la dernière image Docker
+            docker-compose up -d  # Redémarre les conteneurs avec Docker Compose ou toute autre commande nécessaire
